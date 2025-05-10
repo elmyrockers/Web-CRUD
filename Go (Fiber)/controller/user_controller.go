@@ -37,6 +37,7 @@ type UserController struct{
 func (u *UserController) List(c *fiber.Ctx) error {
 	session, err := u.sessionStore.Get( c )
 	if err != nil { return err } // Handling for session lost
+	
 
 	flash := session.Get( "flash_message" )
 	if flash == nil { // Set default message
@@ -44,6 +45,7 @@ func (u *UserController) List(c *fiber.Ctx) error {
 	}
 	session.Delete( "flash_message" )
 	session.Save()
+	
 
 	users := u.UserRepository.All()
 	

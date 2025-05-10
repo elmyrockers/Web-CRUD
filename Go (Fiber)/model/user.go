@@ -6,7 +6,7 @@ type User struct {
 	ID		  int		`db:"id"`
 	Name	  string	`db:"name"`
 	Email	  string	`db:"email"`
-	Password  string	`db:"password"`
+	Website   string	`db:"website"`
 	CreatedAt time.Time `db:"created_at"`
 	UpdatedAt time.Time `db:"updated_at"`
 }
