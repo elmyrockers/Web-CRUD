@@ -18,7 +18,7 @@ import (
 
 func createSessionStore() *session.Store {
 	return session.New(session.Config{
-		Expiration: 30 * time.Minute, // ✅ Auto-delete inactive sessions
+		Expiration: 30 * time.Minute, // Auto-delete inactive sessions
 	})
 }
 
