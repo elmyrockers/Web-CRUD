@@ -4,10 +4,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/jmoiron/sqlx"
 	"github.com/gofiber/fiber/v2/middleware/session"
-	// "github.com/jinzhu/copier"
 
 	"Web_CRUD/dto"
-	// "Web_CRUD/model"
 	"Web_CRUD/repository"
 	
 	
