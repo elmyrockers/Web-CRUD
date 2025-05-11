@@ -52,7 +52,7 @@ func (u *UserRepository) New(request dto.NewUserRequest ) ( int64, error) {
 			log.Fatal(err)
 		}
 	// Create new user record
-		result, err := u.base.DB.NamedExec( "INSERT INTO users(name, email, password) VALUES(:name, :email, :password)", user )
+		result, err := u.base.DB.NamedExec( "INSERT INTO users(name, email, website) VALUES(:name, :email, :website)", user )
 		if err != nil {
 			return 0, err
 		}
@@ -64,6 +64,23 @@ func (u *UserRepository) New(request dto.NewUserRequest ) ( int64, error) {
 		return userID, err
 }
 
-func (u *UserRepository) Create() {
-	
+func (u *UserRepository) Edit(request dto.EditUserRequest ) ( int64, error ) {
+	// Map request to db model
+		var user model.User
+		err := copier.Copy( &user, &request )
+		if err != nil {
+			log.Fatal(err)
+		}
+
+	// Edit user record
+		result, err := u.base.DB.NamedExec( `UPDATE users
+											 SET name=:name, email=:email, website=:website
+											 WHERE id=:id`, user )
+		if err != nil {
+			return 0, err
+		}
+
+	// return affected rows
+		rowsAffected, _ := result.RowsAffected()
+		return rowsAffected, nil
 }

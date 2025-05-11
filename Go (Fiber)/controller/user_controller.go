@@ -64,7 +64,6 @@ func (u *UserController) New(c *fiber.Ctx) error {
 func (u *UserController) Edit(c *fiber.Ctx) error {
 	id := c.Params( "id" )
 	user := u.UserRepository.GetByID( id )
-	// spew.Dump( user.ID )
 
 	// Display view
 		return c.Render( "User/edit", fiber.Map{
@@ -85,12 +84,7 @@ func (u *UserController) Delete(c *fiber.Ctx) error {
 
 func (u *UserController) New_process(c *fiber.Ctx) error {
 		session, err := u.sessionStore.Get( c )
-		// keys := session.Keys()
-		// spew.Dump( keys, err )
-		// return nil
 
-
-	// spew.Dump( store )
 	// Get form values
 		var request dto.NewUserRequest
 		err = c.BodyParser( &request )
@@ -108,7 +102,8 @@ func (u *UserController) New_process(c *fiber.Ctx) error {
 		userID, err := u.UserRepository.New( request )
 		spew.Dump( userID )
 		if err != nil {
-			session.Set( "flash_message", "<div class='alert alert-danger'>Failed to create new user record!</div>" )
+			errorMessage := err.Error()
+			session.Set( "flash_message", "<div class='alert alert-danger'>Failed to create new user record! <br>"+errorMessage+"</div>" )
 			session.Save()
 			return c.Redirect( "/users" )
 		}
@@ -118,23 +113,38 @@ func (u *UserController) New_process(c *fiber.Ctx) error {
 }
 
 func (u *UserController) Edit_process(c *fiber.Ctx) error {
-	id := c.Params( "id" )
-	user := u.UserRepository.GetByID( id )
-	spew.Dump( user.ID )
+		session, err := u.sessionStore.Get( c )
 
-	// Display view
-		return c.Render( "User/delete", fiber.Map{
-			"user": user,
-		})
+	// Get form values
+		var request dto.EditUserRequest
+		err = c.BodyParser( &request )
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
+		}
+
+	// Validate user request
+		err = dto.Validate( &request )
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"validation_errors": err.Error()})
+		}
+
+	// Save form data into db table
+		_, err = u.UserRepository.Edit( request )
+		
+		if err != nil {
+			errorMessage := err.Error()
+			session.Set( "flash_message", "<div class='alert alert-danger'>Failed to update user record! <br>"+errorMessage+"</div>" )
+			session.Save()
+			return c.Redirect( "/users" )
+		}
+		session.Set( "flash_message", "<div class='alert alert-success'>User record has been updated successfully!</div>" )
+		session.Save()
+		return c.Redirect( "/users" )
 }
 
 func (u *UserController) Delete_process(c *fiber.Ctx) error {
-	id := c.Params( "id" )
-	user := u.UserRepository.GetByID( id )
-	spew.Dump( user.ID )
-
-	// Display view
-		return c.Render( "User/delete", fiber.Map{
-			"user": user,
-		})
+	// id := c.Params( "id" )
+	// user := u.UserRepository.GetByID( id )
+	// spew.Dump( id )
+	return nil
 }
