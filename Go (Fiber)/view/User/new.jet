@@ -21,7 +21,7 @@
 									<span class="input-group-text">
 										<i class="fa-solid fa-user"></i>
 									</span>
-									<input type="text" class="form-control" id="name" name="name">
+									<input type="text" class="form-control" id="name" name="name" required>
 								</div>
 							</div>
 						</div>
@@ -32,18 +32,18 @@
 									<span class="input-group-text">
 										<i class="fa-solid fa-at"></i>
 									</span>
-									<input type="email" class="form-control" id="email" name="email">
+									<input type="email" class="form-control" id="email" name="email" required>
 								</div>
 							</div>
 						</div>
 						<div class="mb-3 row">
-							<label for="password" class="col-sm-2 col-form-label">Password</label>
+							<label for="website" class="col-sm-2 col-form-label">Website</label>
 							<div class="col-sm-10">
 								<div class="input-group">
 									<span class="input-group-text">
-										<i class="fa-solid fa-key"></i>
+										<i class="fa-solid fa-globe"></i>
 									</span>
-									<input type="password" class="form-control" id="password" name="password">
+									<input type="url" class="form-control" id="website" name="website" required>
 								</div>
 							</div>
 						</div>

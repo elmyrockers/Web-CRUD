@@ -46,6 +46,10 @@
 										</div>
 									</td>
 								</tr>
+							{{ else }}
+								<tr>
+									<td colspan="7">No data</td>
+								</tr>
 							{{ end }}
 						</tbody>
 					</table>
