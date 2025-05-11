@@ -143,8 +143,21 @@ func (u *UserController) Edit_process(c *fiber.Ctx) error {
 }
 
 func (u *UserController) Delete_process(c *fiber.Ctx) error {
-	// id := c.Params( "id" )
-	// user := u.UserRepository.GetByID( id )
-	// spew.Dump( id )
-	return nil
+		session, err := u.sessionStore.Get( c )
+
+	// Get ID
+		id := c.Params( "id" )
+
+	// Save form data into db table
+		_, err = u.UserRepository.Delete( id )
+		
+		if err != nil {
+			errorMessage := err.Error()
+			session.Set( "flash_message", "<div class='alert alert-danger'>Failed to delete user record! <br>"+errorMessage+"</div>" )
+			session.Save()
+			return c.Redirect( "/users" )
+		}
+		session.Set( "flash_message", "<div class='alert alert-success'>User record has been deleted successfully!</div>" )
+		session.Save()
+		return c.Redirect( "/users" )
 }

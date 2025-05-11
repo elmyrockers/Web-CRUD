@@ -84,3 +84,17 @@ func (u *UserRepository) Edit(request dto.EditUserRequest ) ( int64, error ) {
 		rowsAffected, _ := result.RowsAffected()
 		return rowsAffected, nil
 }
+
+func (u *UserRepository) Delete( id string ) ( int64, error ) {
+	// Delete user record
+		arg := map[string]interface{}{ "id": id }
+		result, err := u.base.DB.NamedExec( `DELETE FROM users
+											 WHERE id=:id`, arg )
+		if err != nil {
+			return 0, err
+		}
+
+	// return affected rows
+		rowsAffected, _ := result.RowsAffected()
+		return rowsAffected, nil
+}
