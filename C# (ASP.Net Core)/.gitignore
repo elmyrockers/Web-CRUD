@@ -1,6 +1,29 @@
+# Build results
 bin/
 obj/
-Properties/
-appsettings.json
-appsettings.Development.json
-wwwroot/
+
+# User-specific files
+*.user
+*.vs/
+.vscode/
+.idea/
+
+# OS-generated
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# dotnet tooling
+project.lock.json
+project.fragment.lock.json
+
+# Rider
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Optional: secrets and local settings
+appsettings.*.Secrets.json
