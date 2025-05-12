@@ -31,7 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Routes
 	app.MapControllerRoute(
 		name: "user-list",
-		pattern: "users/{action=List}",
+		pattern: "users/{action=List}/{id?}",
 		defaults: new {controller="User"});
 
 // Default route
