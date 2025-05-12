@@ -15,4 +15,10 @@ public class UserController : Controller
 	{
 		return View();
 	}
+
+	[HttpGet]
+	public IActionResult New()
+	{
+		return View();
+	}
 }
