@@ -1,29 +1,43 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Dumpify;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// Add MVC services
+	builder.Services.AddControllersWithViews();
+	builder.Services.AddRouting(options =>
+	{
+		options.LowercaseUrls = true;
+		options.AppendTrailingSlash = false; // optional
+	});
 
-var app = builder.Build();
+	var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+// Middlewares
+	if (!app.Environment.IsDevelopment())
+	{
+		app.UseExceptionHandler("/Home/Error");
+		app.UseHsts();
+	}
 
-app.UseHttpsRedirection();
-app.UseRouting();
+	app.UseHttpsRedirection();
+	app.UseStaticFiles();
+	app.UseRouting();
 
-app.UseAuthorization();
+	app.UseAuthorization();
 
-app.MapStaticAssets();
+// Routes
+	app.MapControllerRoute(
+		name: "user-list",
+		pattern: "users/{action=List}",
+		defaults: new {controller="User"});
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+// Default route
+	app.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=User}/{action=Index}/{id?}");
 
 
 app.Run();
