@@ -1,4 +1,4 @@
-namespace C___ASP.Net_Core_.Models;
+namespace WebCRUD.Models;
 
 public class ErrorViewModel
 {
