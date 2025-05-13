@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Data;
+using MySql.Data.MySqlClient; // Import for MySQL connection
 using Dumpify;
+using WebCRUD.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 		options.LowercaseUrls = true;
 		options.AppendTrailingSlash = false; // optional
 	});
+
+	// Database Manipulation
+		builder.Services.AddScoped<UserRepository>();// Register UserRepository with DI
+		builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 	var app = builder.Build();
 
