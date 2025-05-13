@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using C___ASP.Net_Core_.Models;
+using WebCRUD.Models;
 
-namespace C___ASP.Net_Core_.Controllers;
+namespace WebCRUD.Controllers;
 
 public class HomeController : Controller
 {
@@ -15,6 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        
         return View();
     }
 
