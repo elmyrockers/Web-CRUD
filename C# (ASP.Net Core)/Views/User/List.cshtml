@@ -3,7 +3,7 @@
 		<div class="container">
 			<section class="row mt-5">
 				<div class="col p-5 bg-white rounded-5">
-					@* {{ flash |raw }} *@
+					@Html.Raw(ViewBag.Flash)
 					<h1>List of Users:</h1>
 					<table class="table table-bordered table-hover">
 						<thead class="table-dark">
