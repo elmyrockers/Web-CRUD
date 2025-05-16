@@ -49,9 +49,10 @@ public class UserController : Controller
 	}
 
 	[HttpGet]
-	public IActionResult Delete()
+	public async Task<IActionResult> Delete( int Id )
 	{
-		return View();
+		var user = await _userRepository.GetByID( Id );
+		return View( user );
 	}
 
 	[HttpPost]
