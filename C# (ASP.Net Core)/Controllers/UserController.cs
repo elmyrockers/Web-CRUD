@@ -42,9 +42,10 @@ public class UserController : Controller
 	}
 
 	[HttpGet]
-	public IActionResult Edit()
+	public async Task<IActionResult> Edit( int Id )
 	{
-		return View();
+		var user = await _userRepository.GetByID( Id );
+		return View( user );
 	}
 
 	[HttpGet]
