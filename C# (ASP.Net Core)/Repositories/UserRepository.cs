@@ -55,4 +55,12 @@ public class UserRepository
 				WHERE id=@Id";
 		return await _db.ExecuteAsync(sql, user);
 	}
+
+	public async Task<int> Delete(int Id)
+	{
+		var sql = @"
+				DELETE FROM users
+				WHERE id=@Id";
+		return await _db.ExecuteAsync(sql, new {Id=Id});
+	}
 }
