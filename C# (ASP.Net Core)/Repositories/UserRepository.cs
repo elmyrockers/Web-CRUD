@@ -44,4 +44,15 @@ public class UserRepository
 
 		return await _db.ExecuteScalarAsync<int>(sql, user);
 	}
+
+	public async Task<int> Update(UserModel user)
+	{
+		var sql = @"
+				UPDATE users
+				SET name = @Name,
+					email = @Email,
+					website = @Website
+				WHERE id=@Id";
+		return await _db.ExecuteAsync(sql, user);
+	}
 }
