@@ -25,4 +25,13 @@ public class UserRepository
 					FROM users";
 		return await _db.QueryAsync<UserModel>(sql);
 	}
+
+	public async Task<int> Insert(UserModel user)
+	{
+		var sql = @"INSERT INTO users (name, email, website)
+					VALUES (@Name, @Email, @Website);
+					SELECT LAST_INSERT_ID();";
+
+		return await _db.ExecuteScalarAsync<int>(sql, user);
+	}
 }
