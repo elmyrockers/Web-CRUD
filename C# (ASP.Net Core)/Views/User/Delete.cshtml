@@ -3,7 +3,7 @@
 			<section class="row justify-content-center mt-5">
 				<div class="col-6 p-5 bg-white rounded-5">
 					<h1 class="mb-4">Delete User #@Model.Id</h1>
-					<form method="post">
+					<form method="post" action="/users/confirmdelete/@Model.Id">
 						<input type="hidden" name="id" value="@Model.Id">
 						<div class="mb-3 row">
 							<label for="name" class="col-sm-2 col-form-label">Name</label>
