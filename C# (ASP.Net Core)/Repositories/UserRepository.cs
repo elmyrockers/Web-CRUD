@@ -26,6 +26,16 @@ public class UserRepository
 		return await _db.QueryAsync<UserModel>(sql);
 	}
 
+	public async Task<UserModel> GetByID(int Id )
+	{
+		var sql = @"SELECT *,
+						   created_at AS CreatedAt,
+						   updated_at AS UpdatedAt
+					FROM users
+					WHERE id=@Id";
+		return await _db.QuerySingleOrDefaultAsync<UserModel>(sql, new {Id=Id});
+	}
+
 	public async Task<int> Insert(UserModel user)
 	{
 		var sql = @"INSERT INTO users (name, email, website)
