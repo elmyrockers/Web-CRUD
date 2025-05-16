@@ -42,14 +42,14 @@ public class UserController : Controller
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> Edit( int Id )
+	public async Task<IActionResult> Edit(int Id )
 	{
 		var user = await _userRepository.GetByID( Id );
 		return View( user );
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> Delete( int Id )
+	public async Task<IActionResult> Delete(int Id )
 	{
 		var user = await _userRepository.GetByID( Id );
 		return View( user );
@@ -99,6 +99,21 @@ public class UserController : Controller
 				return LocalRedirect( "/users" );
 			}
 			HttpContext.Session.SetString( "flash_message", "<div class='alert alert-success'>The user record has been updated successfully!</div>" );
+			return LocalRedirect( "/users" );
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> ConfirmDelete(int Id )
+	{
+		// Delete specific row from 'users' table
+			var affectedRows = await _userRepository.Delete( Id );
+
+		// Set flash message then redirect to 'users' table
+			if( affectedRows <=0 ){
+				HttpContext.Session.SetString( "flash_message", "<div class='alert alert-danger'>Failed to delete user record!</div>" );
+				return LocalRedirect( "/users" );
+			}
+			HttpContext.Session.SetString( "flash_message", "<div class='alert alert-success'>The user record has been deleted successfully!</div>" );
 			return LocalRedirect( "/users" );
 	}
 }
