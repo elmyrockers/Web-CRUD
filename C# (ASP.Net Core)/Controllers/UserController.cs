@@ -76,4 +76,28 @@ public class UserController : Controller
 			HttpContext.Session.SetString( "flash_message", "<div class='alert alert-success'>The new user has been added successfully!</div>" );
 			return LocalRedirect( "/users" );
 	}
+
+	[HttpPost]
+	public async Task<IActionResult> Edit(EditUserRequest request)
+	{
+		if ( !ModelState.IsValid ) return BadRequest( ModelState );
+
+		// Insert form data into 'users' table
+			var user = new UserModel
+			{
+				Id = request.Id,
+				Name = request.Name,
+				Email = request.Email,
+				Website = request.Website
+			};
+			var affectedRows = await _userRepository.Update( user );
+
+		// Set flash message then redirect to 'users' table
+			if( affectedRows <=0 ){
+				HttpContext.Session.SetString( "flash_message", "<div class='alert alert-danger'>Failed to update user record!</div>" );
+				return LocalRedirect( "/users" );
+			}
+			HttpContext.Session.SetString( "flash_message", "<div class='alert alert-success'>The user record has been updated successfully!</div>" );
+			return LocalRedirect( "/users" );
+	}
 }
