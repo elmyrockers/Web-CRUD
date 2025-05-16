@@ -6,6 +6,9 @@ using MySql.Data.MySqlClient; // Import for MySQL connection
 using Dumpify;
 using WebCRUD.Repositories;
 
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MVC services
@@ -20,6 +23,14 @@ var builder = WebApplication.CreateBuilder(args);
 		builder.Services.AddScoped<UserRepository>();// Register UserRepository with DI
 		builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add session services
+	builder.Services.AddDistributedMemoryCache(); // Required for in-memory session storage
+	builder.Services.AddSession(options =>
+	{
+		options.IdleTimeout = TimeSpan.FromMinutes(30); // Optional
+		options.Cookie.HttpOnly = true; // Security best practice
+		options.Cookie.IsEssential = true; // For GDPR compliance
+	});
 
 	var app = builder.Build();
 
@@ -32,6 +43,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 	app.UseHttpsRedirection();
 	app.UseStaticFiles();
+	app.UseSession();
 	app.UseRouting();
 
 	app.UseAuthorization();
